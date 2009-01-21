@@ -7,7 +7,22 @@ A python module for accessing Mac OS X keychain data from Python. This is a fork
 Installation
 ------------
 
-Installation instructions to follow.
+If you've already installed [setuptools](http://pypi.python.org/pypi/setuptools) you can download and install the keychain module with the following command:
+
+    easy_install http://github.com/spjwebster/keychain.py/tarball/master
+
+If not, [download the tarball](http://github.com/spjwebster/keychain.py/tarball/master), extract it and then:
+
+    cd path/to/extracted/directory
+    python setup.py install
+
+
+Unit tests
+----------
+
+Once you've installed the keychain module, you can run the unit tests to make sure that everything is working:
+
+    python tests.py
 
 
 License
