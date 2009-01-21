@@ -11,7 +11,10 @@ if import is attempted on anything other than Mac OSX
 Created by Stuart Colville on 2008-02-02
 Muffin Research Labs. http://muffinresearch.co.uk/
 
-Copyright (c) 2008, Stuart J Colville
+Refined by Steve Webster on 2009-01-21
+Dynamic Flash. http://dynamicflash.com
+
+Copyright (c) 2008, Stuart J Colville and Steve Webster
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -25,10 +28,10 @@ modification, are permitted provided that the following conditions are met:
       names of its contributors may be used to endorse or promote products
       derived from this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY Stuart J Colville ``AS IS'' AND ANY
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY
 EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL Stuart J Colville BE LIABLE FOR ANY
+DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
 DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -112,13 +115,15 @@ class Keychain:
             )
 
 
-    def get_generic_password(self, keychain, account):
+    def get_generic_password(self, keychain, account, servicename=None):
         """Returns account information from specified keychain item """
 
         if self.check_keychain_exists(keychain):
+            account = account and '-a %s' % (account,) or ''
+            servicename = servicename and '-s %s' % (servicename,) or ''
             result = commands.getstatusoutput(
-                "security find-generic-password -g -a %s  %s.keychain" % \
-                    (account, keychain)
+                "security find-generic-password -g %s %s %s.keychain" % \
+                    (account, servicename, keychain)
             )
             if result[0]:
                 return False, 'The specified item could not be found'

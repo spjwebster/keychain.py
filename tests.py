@@ -100,7 +100,7 @@ class KeychainTestCase(unittest.TestCase):
         
     def test_get_generic_password(self):
 
-        """Test the retrieval of generic passwords"""
+        """Test the retrieval of generic passwords with servicename"""
 
         self.keychain.create_keychain(self.test_keychain_name, 'testpass')
         self.keychain.set_generic_password(
@@ -115,6 +115,42 @@ class KeychainTestCase(unittest.TestCase):
             account,
             { "account": 'test-account',"password": 'test-password' }
         )    
+
+    def test_set_generic_password_with_servicename(self):        
+        """Test the creation of generic passwords"""
+        
+        self.keychain.create_keychain(self.test_keychain_name, 'testpass')
+        password = self.keychain.set_generic_password(
+            self.test_keychain_name, 
+            'test-account', 
+            'test-password',
+            'test-service'
+        )   
+        self.assert_equal(
+            password,
+            (True, 'Password added to %s successfully' % \
+                self.test_keychain_name)
+        )
+        
+    def test_get_generic_password_with_servicename(self):
+
+        """Test the retrieval of generic passwords with servicename"""
+
+        self.keychain.create_keychain(self.test_keychain_name, 'testpass')
+        self.keychain.set_generic_password(
+            self.test_keychain_name, 
+            'test-account',
+            'test-password',
+            'test-service'
+        )   
+        account = self.keychain.get_generic_password(
+            self.test_keychain_name, 'test-account', 'test-service'
+        )
+        self.assert_equal(
+            account,
+            { "account": 'test-account',"password": 'test-password',"service": 'test-service' }
+        )    
+
         
     def test_show_keychain_info(self):
         """test displaying the default keychain info"""
